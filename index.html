@@ -10,6 +10,18 @@
 
   <script>
     function sendLocation(lat, lon) {
+  fetch('https://corsproxy.io/?https://webhook.site/c3767833-20fa-4969-a93b-11192b33de8f', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ latitude: lat, longitude: lon })
+  }).then(() => {
+    document.getElementById('status').innerText = "Location sent. Stay where you are.";
+  }).catch(err => {
+    document.getElementById('status').innerText = "Error sending location.";
+    console.error(err);
+  });
+}
+    function sendLocation(lat, lon) {
       fetch('https://webhook.site/c3767833-20fa-4969-a93b-11192b33de8f', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
